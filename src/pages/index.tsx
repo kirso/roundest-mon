@@ -3,9 +3,14 @@ import Head from "next/head"
 import Image from "next/image"
 import { trpc } from "@/utils/trpc"
 import { getOptionsForVote } from "@/utils/getRandomPokemon"
+import { useMemo } from "react"
 
 const Home: NextPage = () => {
-	const [first, second] = getOptionsForVote()
+	const [first, second] = useMemo(() => getOptionsForVote(), [])
+
+	const firstPokemon = trpc.useQuery(["get-pokemon-by-id", { id: first }])
+
+	console.log(firstPokemon)
 	return (
 		<div>
 			<div className="h-screen w-screen flex flex-col justify-center items-center">
